@@ -53,9 +53,9 @@ const NavbarComponent = () => {
         <div>
             <WrapperTextLabel>Danh mục sản phẩm</WrapperTextLabel>
             <WrapperContent>
-                {renderContent('text', ['Trang điểm ', 'Chăm sóc da', 'Chăm sóc tóc'])}
+                {renderContent('text', ['Trang điểm ', 'Chăm sóc da', 'Chăm sóc sức khỏe', 'Chăm sóc tóc', 'Body'])}
             </WrapperContent>
-            <WrapperContent>
+            {/* <WrapperContent>
                 {renderContent('checkbox', [
                     { value: 'a', label: 'A' },
                     { value: 'b', label: 'B' }
@@ -66,7 +66,7 @@ const NavbarComponent = () => {
             </WrapperContent>
             <WrapperContent>
                 {renderContent('price', ['Dưới 40.000', 'Trên 50.000'])}
-            </WrapperContent>
+            </WrapperContent> */}
         </div>
     )
 }

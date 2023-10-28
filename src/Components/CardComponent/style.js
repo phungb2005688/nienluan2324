@@ -8,6 +8,7 @@ export const WrapperCardStyle = styled(Card)`
         height: 200px;
     }
     position: relative;
+    // Hình ảnh=================================================================
 `   
 
 export const StyleNameProduct = styled.div`
@@ -32,4 +33,10 @@ export const WrapperTextDiscount = styled.span`
     font-size: 14px;
     color: red;
     font-weight: 600;
+`
+
+export const WrapperStyleTextSell = styled.span`
+    color: rgb(120, 120, 120);
+    font-size: 13px;
+    line-height: 22px;
 `

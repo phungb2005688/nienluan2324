@@ -4,6 +4,7 @@ export const WrapperTextLabel = styled.div`
     color: rgb(56, 56, 61);
     font-size: 14px;
     font-weight: bold;
+    padding-bottom: 10px;
 `
 export const WrapperTextValue = styled.span`
     color: rgb(56, 56, 61);
