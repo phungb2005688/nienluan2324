@@ -7,6 +7,8 @@ export const WrapperHeader = styled(Row)`
     align-items: center;
     gap: 16px;
     flex-wrap: nowrap;
+    width: 1070px;
+    padding: 15px 0;
 `
 //https://beau.vn/sites/default/files/2020-12/brand_logo_mau_xanh_la_copy.jpg
 export const WrapperHeaderText = styled.span`

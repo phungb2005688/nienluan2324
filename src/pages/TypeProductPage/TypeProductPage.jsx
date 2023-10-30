@@ -9,26 +9,30 @@ const TypeProductPage = () => {
 
     }
     return (
-        <div style={{ padding: '14px 100px 0px', backgroundColor: '#efefef' }}>
-            <Row style={{ flexWrap: 'nowrap' }}>
-                <WrapperNavbar span={5}>
-                    <NavbarComponent></NavbarComponent>
-                </WrapperNavbar>
+        <div style={{ width: '100%', background: '#efefef' }}>
+            <div style={{ width: '1070px', margin: '0 auto',}}>
+                {/* từ padding: '14px 100px 0px' đổi thành width: '1270px', margin: '0 auto', */}
+                <Row style={{ flexWrap: 'nowrap', paddingTop: '10px' }}>
+                    <WrapperNavbar span={5}>
+                        <NavbarComponent></NavbarComponent>
+                    </WrapperNavbar>
 
-                <Col span={19}>
-                    <WrapperProducts >
-                        <CardComponent></CardComponent>
-                        <CardComponent></CardComponent>
-                        <CardComponent></CardComponent>
-                        <CardComponent></CardComponent>
-                        <CardComponent></CardComponent>
-                    </WrapperProducts>
-                    <Pagination defaultCurrent={1} total={100} onChange={onChange} style={{textAlign: 'center', marginTop: '10px'}} />
+                    <Col span={19}>
+                        <WrapperProducts >
+                            <CardComponent></CardComponent>
+                            <CardComponent></CardComponent>
+                            <CardComponent></CardComponent>
+                            <CardComponent></CardComponent>
+                            <CardComponent></CardComponent>
+                        </WrapperProducts>
+                        <Pagination defaultCurrent={1} total={100} onChange={onChange} style={{ textAlign: 'center', marginTop: '10px' }} />
 
-                </Col>
-            </Row>
+                    </Col>
+                </Row>
 
+            </div>
         </div>
+
     )
 }
 

@@ -8,15 +8,15 @@ import ButtonInputSearch from '../ButtonInputSearch/ButtonInputSearch';
 
 const HeaderComponent = () => {
   return (
-    <div>
+    <div style={{  heiht: '100%', width: '100%', display: 'flex', background: '#008000', justifyContent: 'center' }}>
       <WrapperHeader>
-        <Col span={4}>
+        <Col span={3}>
           <WrapperHeaderText>
             {/* <WrapperIMGHeader style={{ fontSize: '10px'}} ><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/HP_logo_630x630.png/240px-HP_logo_630x630.png" alt="" /></WrapperIMGHeader> */}
             RINEL
           </WrapperHeaderText>
         </Col>
-        <Col span={13}>
+        <Col span={12} style={{ width: '500px' }}>
           <ButtonInputSearch
             size="large"
             textButton="Tìm kiếm"
@@ -25,9 +25,9 @@ const HeaderComponent = () => {
           //onSearch={onSearch}
           />
         </Col>
-        <Col span={7} style={{ display: 'flex', gap: '20px' }}>
+        <Col span={9} style={{ display: 'flex', gap: '74px', alignItems: 'center' }}>
           <WrapperHeaderAccount>
-            <UserOutlined style={{ fontSize: '30px' }} />
+            <UserOutlined style={{ fontSize: '30px', paddingLeft: '20px' }} />
             <div>
               <WrapperHeaderTextSmall>Đăng nhập/Đăng ký</WrapperHeaderTextSmall>
               <div>
