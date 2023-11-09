@@ -9,4 +9,5 @@ export const WrapperInputStyle = styled(Input)`
     &:focus {
         background-color: #f2f7f2;
     }
+    margin: 2px;
 `
