@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { useMutationHooks } from '../../hooks/useMutationHook'
 import * as UserService from '../../services/UserService'
 // import Loading from '../../Components/LoadingComponent/Loading'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { jwtDecode } from "jwt-decode";
 import { updateUser } from '../../redux/slices/userSlice'
 
@@ -31,7 +31,7 @@ const SignInPage = () => {
   useEffect(() => {
     if (isSuccess) {
       navigate('/')
-      localStorage.setItem('access_token', data?.access)
+      localStorage.setItem('access_token', JSON.stringify(data?.access_token))
       if (data?.access_token) {
         // const decoded = jwt_decode(data?.access_token)
         const decoded = jwtDecode(data?.access_token)
@@ -47,7 +47,6 @@ const SignInPage = () => {
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token)
     dispatch(updateUser({ ...res?.data, access_token: token }))
-
   }
   const handleOnchangeEmail = (value) => {
     setEmail(value)
