@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { WrapperContainerLeft, WrapperContainerRight, WrapperTextLight } from './style'
 import InputForm from '../../Components/InputForm/InputForm'
 import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent'
@@ -9,7 +9,11 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMutationHooks } from '../../hooks/useMutationHook'
 import * as UserService from '../../services/UserService'
-import Loading from '../../Components/LoadingComponent/Loading'
+// import Loading from '../../Components/LoadingComponent/Loading'
+import { useDispatch, useSelector } from 'react-redux'
+import { jwtDecode } from "jwt-decode";
+import { updateUser } from '../../redux/slices/userSlice'
+
 
 const SignInPage = () => {
   const navigate = useNavigate()
@@ -18,13 +22,33 @@ const SignInPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const dispatch = useDispatch();
+
   const mutation = useMutationHooks(
     data => UserService.loginUser(data)
   )
-  const { data, isLoading } = mutation
+  const { data, isSuccess } = mutation
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/')
+      localStorage.setItem('access_token', data?.access)
+      if (data?.access_token) {
+        // const decoded = jwt_decode(data?.access_token)
+        const decoded = jwtDecode(data?.access_token)
+        console.log('decoded', decoded)
+        if (decoded?.id) {
+          handleGetDetailsUser(decoded?.id, data?.access_token)
 
-  // console.log('mutation', mutation);
+        }
+      }
+    }
+  }, [isSuccess])
 
+  const handleGetDetailsUser = async (id, token) => {
+    const res = await UserService.getDetailsUser(id, token)
+    dispatch(updateUser({ ...res?.data, access_token: token }))
+
+  }
   const handleOnchangeEmail = (value) => {
     setEmail(value)
   }
@@ -80,22 +104,22 @@ const SignInPage = () => {
           </div>
           {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}
           {/* <Loading isLoading={isLoading}> */}
-            <ButtonComponent
-              disabled={!email.length || !password.length}
-              onClick={handleSignIn}
-              size={40}
-              styleButton={{
-                background: '#7eb37a',
-                height: '48px',
-                width: '100%',
-                border: 'none',
-                borderRadius: '4px',
-                margin: '26px 0 10px'
-              }}
-              textButton={'Đăng nhập'}
-              styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}
-            >
-            </ButtonComponent>
+          <ButtonComponent
+            disabled={!email.length || !password.length}
+            onClick={handleSignIn}
+            size={40}
+            styleButton={{
+              background: '#7eb37a',
+              height: '48px',
+              width: '100%',
+              border: 'none',
+              borderRadius: '4px',
+              margin: '26px 0 10px'
+            }}
+            textButton={'Đăng nhập'}
+            styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}
+          >
+          </ButtonComponent>
           {/* </Loading> */}
 
           <p style={{ marginTop: '50px' }}><WrapperTextLight>Quên mật khẩu?</WrapperTextLight></p>

@@ -9,7 +9,9 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMutationHooks } from '../../hooks/useMutationHook'
 import * as UserService from '../../services/UserService'
-import Loading from '../../Components/LoadingComponent/Loading'
+// import Loading from '../../Components/LoadingComponent/Loading'
+import * as message from '../../Components/Message/Message'
+import { useEffect } from 'react'
 
 const SignUpPage = () => {
   const navigate = useNavigate()
@@ -21,15 +23,22 @@ const SignUpPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const handleOnchangeEmail = (value) => {
+    setEmail(value)
+  }
   const mutation = useMutationHooks(
     data => UserService.signupUser(data)
   )
 
-  const { data, isLoading } = mutation
-
-  const handleOnchangeEmail = (value) => {
-    setEmail(value)
-  }
+  const { data, isSuccess, isError } = mutation
+  useEffect(() => {
+    if (isSuccess) {
+      message.success()
+      // handleNavigateSignIn()
+    } else if (isError) {
+      message.error()
+    }
+  }, [isSuccess, isError])
 
   const handleOnchangePassword = (value) => {
     setPassword(value)
@@ -38,6 +47,7 @@ const SignUpPage = () => {
   const handleOnchangeConfirmPassword = (value) => {
     setConfirmPassword(value)
   }
+
   const handleNavigateSignIn = () => {
     navigate('/sign-in')
   }
