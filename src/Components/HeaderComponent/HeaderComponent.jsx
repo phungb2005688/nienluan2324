@@ -1,5 +1,5 @@
 import { Badge, Col, Popover } from 'antd';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { WrapperHeader, WrapperHeaderText, WrapperHeaderAccount, WrapperHeaderTextSmall, WrapperContentPopup } from './style';
 import {
   UserOutlined, CaretDownOutlined, ShoppingCartOutlined
@@ -11,10 +11,14 @@ import * as UserService from '../../services/UserService'
 import { resetUser } from '../../redux/slices/userSlice'
 import Loading from '../LoadingComponent/Loading';
 
+
 const HeaderComponent = () => {
   const navigate = useNavigate()
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
+  const [userName, setUserName] = useState('')
+  const [userAvatar, setUserAvatar] = useState('')
+
   const [loading, setLoading] = useState(false)
 
 
@@ -27,15 +31,21 @@ const HeaderComponent = () => {
     dispatch(resetUser())
     setLoading(false)
   }
+
+  useEffect(() => {
+    setLoading(true)
+    setUserName(user?.name)
+    setUserAvatar(user?.avatar)
+    setLoading(false)
+  }, [user?.name, user?.avatar])
+
   const content = (
     <div>
-      <WrapperContentPopup>Thông tin người dùng</WrapperContentPopup>
+      <WrapperContentPopup onClick={() => navigate('/profile-user')}>Thông tin người dùng</WrapperContentPopup>
       <WrapperContentPopup onClick={handleLogout}>Đăng xuất</WrapperContentPopup>
 
     </div>
   );
-
-  console.log('user', user)
   return (
     <div style={{ heiht: '100%', width: '100%', display: 'flex', background: '#008000', justifyContent: 'center' }}>
       <WrapperHeader>
@@ -57,11 +67,21 @@ const HeaderComponent = () => {
         <Col span={9} style={{ display: 'flex', gap: '74px', alignItems: 'center' }}>
           <Loading isLoading={loading}>
             <WrapperHeaderAccount>
-              <UserOutlined style={{ fontSize: '30px', paddingLeft: '20px' }} />
-              {user?.name ? (
+            {userAvatar ? (
+                <img src={userAvatar} alt="avatar" style={{
+                  height: '35px',
+                  width: '35px',
+                  borderRadius: '50%',
+                  objectFit: 'cover'
+                }} />
+              ) : (
+                <UserOutlined style={{ fontSize: '30px' }} />
+              )}
+              {/* <UserOutlined style={{ fontSize: '30px', paddingLeft: '20px' }} /> */}
+              {user?.access_token ? (
                 <>
                   <Popover content={content} trigger="click">
-                    <div style={{ cursor: 'pointer' }}>{user.name}</div>
+                    <div style={{ cursor: 'pointer' }}>{userName?.length ? userName : user?.email}</div>
                   </Popover>
                 </>
               ) : (
