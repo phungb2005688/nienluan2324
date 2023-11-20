@@ -5,13 +5,14 @@ import DefaultComponent from './Components/DefaultComponent/DefaultComponent'
 import { isJsonString } from './Utils'
 import { jwtDecode } from 'jwt-decode'
 import * as UserService from './services/UserService'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateUser } from './redux/slices/userSlice'
 import axios from 'axios'
 // import { useQuery } from '@tanstack/react-query'
 
 function App() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user)
 
   useEffect(() => {
     const { storageData, decoded } = handleDecoded()
@@ -19,6 +20,7 @@ function App() {
       handleGetDetailsUser(decoded?.id, storageData)
     }
   }, [])
+  
   const handleDecoded = () => {
     let storageData = localStorage.getItem('access_token')
     let decoded = {}
@@ -28,6 +30,7 @@ function App() {
     }
     return { decoded, storageData }
   }
+
   UserService.axiosJWT.interceptors.request.use(async (config) => {
     const currentTime = new Date()
     const { decoded } = handleDecoded()
@@ -41,8 +44,11 @@ function App() {
   })
 
   const handleGetDetailsUser = async (id, token) => {
+    if(!user){
     const res = await UserService.getDetailsUser(id, token)
     dispatch(updateUser({ ...res?.data, access_token: token }))
+    }
+
   }
   // console.log('process.env.REACT_API_URL_BACKEND', process.env.REACT_APP_API_URL);
 
@@ -59,9 +65,10 @@ function App() {
         <Routes>
           {routes.map((route) => {
             const Page = route.page
+            const isCheckAuth = !route.isPrivate || user.isAdmin
             const Layout = route.isShowHeader ? DefaultComponent : Fragment
             return (
-              <Route key={route.path} path={route.path} element={
+              <Route path={route.path} key={ isCheckAuth && route.path} element={
                 <Layout>
                   <Page />
                 </Layout>

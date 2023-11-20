@@ -34,7 +34,7 @@ const SignUpPage = () => {
   useEffect(() => {
     if (isSuccess) {
       message.success()
-      // handleNavigateSignIn()
+      handleNavigateSignIn()
     } else if (isError) {
       message.error()
     }
